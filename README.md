@@ -77,7 +77,6 @@ python train.py
 ## Configuration
 
 - Environment parameters can be set in `src/env_builders/constants.py`.
-- Algorithm hyperparameters are in `src/algorithms/constants.py`.
 
 ## File Overview
 
