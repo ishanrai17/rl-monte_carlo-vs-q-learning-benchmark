@@ -8,8 +8,7 @@ ENV_NAME = "CliffWalking-v0"
 class CliffWalking:
     def __init__(self, render_mode=RENDER_MODE):
         self.env = gym.make(ENV_NAME, render_mode=render_mode)
-        self.maximum_steps = MAXIMUM_STEPS
-        self.complete_count = 0
+        self.step_count = 0
 
         # Initialize Q(s,a) and a counter of first visits
         # self.Q = [[0]*self.env.action_space.n for _ in range(self.env.observation_space.n)]
@@ -26,7 +25,10 @@ class CliffWalking:
 
     def perform(self, action):
         state, reward, complete, _, info = self.env.step(action)
-        return state, reward, complete
+        self.step_count += 1
+        if self.step_count >= MAXIMUM_STEPS:
+            complete = True
+        return state, reward, complete, self.step_count
 
     def random_action(self):
         return self.env.action_space.sample()
@@ -38,8 +40,7 @@ class CliffWalking:
         self.env.close()
 
     def reset(self):
-        self.cliff_count = 0
-        self.win_count = 0
+        self.step_count = 0
         return self.env.reset()
 
     def build_Q_table(self):
