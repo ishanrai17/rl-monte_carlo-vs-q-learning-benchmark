@@ -7,11 +7,7 @@ DECAY_RATE = 0.99995
 
 class MonteCarlo(AbstractRLAlgorithm):
     def __init__(self, env):
-        super().__init__(env)
-        self.gamma = GAMMA
-        self.alpha = ALPHA
-        self.epsilon = EPSILON
-        self.decay_rate = DECAY_RATE
+        super().__init__(env, gamma=GAMMA, alpha=ALPHA, epsilon=EPSILON, decay_rate=DECAY_RATE)
 
     def _execute_episode(self, update=True):
         current_state, _ = self.env.reset()

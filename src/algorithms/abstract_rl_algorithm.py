@@ -1,15 +1,14 @@
-from .constants import GAMMA, EPSILON, ALPHA, DECAY_RATE
 import random
 from abc import ABC, abstractmethod
 
 class AbstractRLAlgorithm(ABC):
-    def __init__(self, env):
+    def __init__(self, env, gamma, alpha, epsilon, decay_rate):
         self.env = env
         self.Q = self.env.build_Q_table()
-        self.epsilon = EPSILON
-        self.gamma = GAMMA
-        self.alpha = ALPHA
-        self.decay_rate = DECAY_RATE
+        self.epsilon = epsilon
+        self.gamma = gamma
+        self.alpha = alpha
+        self.decay_rate = decay_rate
         self.episode_num = 0
 
     def choose_action(self, state):
@@ -34,7 +33,7 @@ class AbstractRLAlgorithm(ABC):
                     r = 0
 
                 self.epsilon = max(0.1, self.epsilon * self.decay_rate)
-                self.alpha = ALPHA * (0.9999 ** self.episode_num)
+                self.alpha *= 0.9999
                 self.alpha = max(0.01, self.alpha)
             self.env.close()
         except KeyboardInterrupt:
